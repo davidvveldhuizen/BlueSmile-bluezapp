@@ -1,0 +1,22 @@
+[package]
+name = "cargo-ble"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "ble"
+path = "src/main.rs"
+
+[dependencies]
+bluer = { version = "0.17.4", features = ["bluetoothd"] }
+anyhow = { version = "1.0.98" }
+tokio = { version = "1", features = ["io-util", "io-std", "time" ] }
+futures = "0.3"
+serde = { version = "1.0.203", default-features = false, features = [ "alloc", "derive" ] }
+crc = "3.2.1"
+dotenv = "0.15.0"
+dialoguer = { version="0.12.0", features=["fuzzy-select"]}
+heapless = "0.8.0"
+clap = { version = "4.5.20", features=["derive"] }
+rand = "0.9.0"
+colored = "3.0.0"
