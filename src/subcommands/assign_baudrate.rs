@@ -13,6 +13,7 @@ pub async fn main(baudrate: u32) -> Result<()> {
     match baudrate {
         4800 => {}
         9600 => {}
+        115200 => {}
         _ => {
             println!("Baudrate not supported");
         }
@@ -75,6 +76,7 @@ pub async fn main(baudrate: u32) -> Result<()> {
                         2400 => retrieved_baudrate == 0x01a00b,
                         4800 => retrieved_baudrate == 0x00d005,
                         9600 => retrieved_baudrate == 0x006803,
+                        115200 => retrieved_baudrate == 0x00080b,
                         _ => false,
                     };
                     if baudrate_matches {

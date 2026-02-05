@@ -29,7 +29,7 @@ pub async fn main(send_amount: usize, delay: u64) -> Result<()> {
     println!("addr: {}", adapter.address().await.unwrap());
 
     let dev = timeout(
-        Duration::from_secs(10),
+        Duration::from_secs(100),
         find_device_name(&adapter, dev_name),
         // find_device_select(&adapter),
     )
@@ -56,26 +56,28 @@ pub async fn main(send_amount: usize, delay: u64) -> Result<()> {
 
     sleep(Duration::from_secs(1)).await;
 
-    let sequence1 = prefab::get_sequence(send_amount, Duration::from_millis(delay));
-    let sequence2 = EventSequence {
+    // let sequence = prefab::get_sequence(send_amount, Duration::from_millis(delay));
+    let sequence = EventSequence {
         sequence: vec![
             Telegram {
                 device_type: 0xffff,
                 serial_number: 0xffffffff,
                 command: crate::ble::telegram::Command::Read,
-                subcommand: 204,
-                data: vec![],
+                subcommand: 101,
+                data: vec![], //vec![0xAA; 244],
             };
             send_amount
         ],
         delay: Duration::from_millis(delay),
     };
+    println!(">>{:?}<<", sequence.sequence[0].to_bytes().unwrap());
+
     if let Some(service) = find_service(&dev, service_uuid).await? {
         println!("Found service");
         if let Some(char) = find_characteristic(&service, char_uuid).await? {
             println!("  Found Characteristic");
 
-            sequence2.send(char).await?;
+            sequence.send(char).await?;
         }
     }
 

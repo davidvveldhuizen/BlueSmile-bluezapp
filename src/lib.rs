@@ -8,6 +8,7 @@ pub mod subcommands {
     pub mod decode;
     pub mod devices;
     pub mod explore;
+    pub mod pass_through;
     pub mod run;
     pub mod scan;
 }

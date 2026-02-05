@@ -33,4 +33,6 @@ pub enum Command {
     Explore,
     #[command(about = "manage devices")]
     Devices,
+    #[command(about = "Passes data between BT module and TCP")]
+    PassThrough,
 }

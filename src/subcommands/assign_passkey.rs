@@ -11,6 +11,16 @@ use std::{env, str::FromStr, time::Duration};
 use tokio::time::{sleep, timeout};
 
 pub async fn main(passkey: Option<u32>) -> Result<()> {
+    // let new_passkey: u32 = passkey.unwrap_or(random_range(0..999999));
+    // let cmd = ControlCommand::new(CommandType::PASSKEY, new_passkey.to_le_bytes());
+    // let serialized: Vec<u8> = cmd.serialize();
+    // let data = serialized.as_slice();
+    // println!("vec: {:?}", serialized);
+    // println!("bytes: {:?}", data);
+    // println!("{:?}", 121212u32.to_le_bytes());
+
+    // return Ok(());
+
     if let Some(passkey) = passkey {
         if passkey > 999999 {
             panic!("passkey cant be higher then 999999")

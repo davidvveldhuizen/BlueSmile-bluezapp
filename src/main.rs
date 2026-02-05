@@ -15,5 +15,6 @@ async fn main() -> Result<()> {
         Command::Scan => subcommands::scan::main().await,
         Command::Explore => subcommands::explore::main().await,
         Command::Devices => subcommands::devices::main().await,
+        Command::PassThrough => subcommands::pass_through::main().await,
     }
 }

@@ -2,7 +2,10 @@ use std::time::Duration;
 
 use anyhow::Result;
 use bluer::{
-    gatt::remote::{Characteristic, CharacteristicWriteRequest, Service},
+    gatt::{
+        remote::{Characteristic, CharacteristicWriteRequest, Service},
+        CharacteristicFlags,
+    },
     Device, DiscoveryFilter, DiscoveryTransport,
 };
 use dialoguer::{theme::ColorfulTheme, FuzzySelect};

@@ -69,12 +69,13 @@ pub async fn main() -> Result<()> {
         .unwrap();
 
     let device = devices[res].clone();
+
     println!(
         "name{:?}
 address: {}
 advertising flags: {:?}
 uuids: {:?}
-manufacturer data: {:?}
+manufacturer data: {:?} 
 battery percentage: {:?}
 class: {:?}
 service data: {:?}
@@ -93,6 +94,17 @@ signal strength: {:?}",
         device.service_data().await.unwrap(),
         device.rssi().await.unwrap(),
     );
+
+    let mut device_type: u16;
+    let mut serial_number: u32;
+    if let Some(mandata) = device.manufacturer_data().await.unwrap() {
+        for val in mandata.values() {
+            device_type = u16::from_be_bytes([val[0], val[1]]);
+            println!("device type: {:?}", device_type);
+            serial_number = u32::from_be_bytes([val[2], val[3], val[4], val[5]]);
+            println!("serial_number: {:?}", serial_number);
+        }
+    }
 
     Ok(())
 }

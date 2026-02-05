@@ -16,12 +16,14 @@ pub struct Telegram {
 pub enum Command {
     Read = 1,
     Write = 2,
+    Execute = 3,
 }
 impl Command {
     pub fn from_byte(byte: u8) -> Result<Self, &'static str> {
         match byte {
             1 => Ok(Self::Read),
             2 => Ok(Self::Write),
+            3 => Ok(Self::Execute),
             _ => Err("invallid command byte"),
         }
     }

@@ -23,27 +23,30 @@ impl EventSequence {
         pin_mut!(notify);
 
         println!(
-            "    Starting write sequence ({:?}, {})",
+            "Starting write sequence ({:?}, {})",
             self.delay,
             self.sequence.len()
         );
 
+        let mut first = true;
         for telegram in self.sequence.as_slice() {
-            sleep(self.delay).await;
+            if first {
+                first = false;
+            } else {
+                sleep(self.delay).await;
+            }
 
-            print!("    {}: {}...", "writing".blue(), telegram);
+            print!("{}: {}...", "Request".blue(), telegram);
             let bytes = telegram.to_bytes().unwrap();
             println!("done");
 
             char.write_ext(&bytes, &write_req).await?;
 
             match timeout(Duration::from_millis(1500), notify.next()).await {
-                Ok(Some(v)) => {
-                    println!(
-                        "    got response {}",
-                        Telegram::from_bytes(v.as_slice()).unwrap()
-                    )
-                }
+                Ok(Some(v)) => match Telegram::from_bytes(v.as_slice()) {
+                    Ok(r) => println!("{}: {}", "Response".green(), r),
+                    Err(er) => println!("   Error in response {}", er),
+                },
                 Ok(None) => println!("    End of messages"),
                 Err(e) => println!(
                     "    {}{}{}",
